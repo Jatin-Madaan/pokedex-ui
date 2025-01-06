@@ -1,14 +1,9 @@
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useState} from "react";
 
-const DetailsTabView = ({formsData, capitalize}: any) => {
+const DetailsTabView = ({formsData, capitalize, id}: any) => {
     const [activeTab, setActiveTab] = useState("evolution");
     const [activeForm, setActiveForm] = useState(0);
     const [description, setDescription] = useState(formsData[0]);
-    const {id} = useParams();
-    useEffect(() => {
-        console.log(formsData);
-    }, [formsData]);
 
     return (
         <div className="tab-container">
@@ -57,8 +52,8 @@ const DetailsTabView = ({formsData, capitalize}: any) => {
                      rounded-2xl flex flex-col justify-center p-28 font-bold text-2xl shadow-lg">
                         {
                             formsData.map((form: any, index: any) => (
-                                form?.id == id && (
-                                        <div key={index}>
+                                 id == form?.id && (
+                                     <div key={index}>
                                             <div className="details-parent">
                                                 <div>Height</div>
                                                 <div>{form?.height}</div>
