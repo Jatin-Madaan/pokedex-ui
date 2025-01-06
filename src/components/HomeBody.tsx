@@ -46,7 +46,7 @@ const HomeBody = () => {
                                 {
                                     cards?.map((card: any, index: number) => (
                                         <div key={index} style={{marginLeft: '5rem'}}>
-                                            <Card data={card}/>
+                                            { card && ( <Card data={card}/> ) }
                                         </div>
                                     ))
                                 }

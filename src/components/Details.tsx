@@ -15,6 +15,7 @@ const Details = () => {
     const poke_info_url: any = process.env.INFO_URL;
     const get_evolution_url: any = process.env.EVOLUTION_URL;
     const [pokeInfo, setPokeInfo] = useState<any>();
+    const [pokeId, setPokeId] = useState<number>(0);
     const backgroundColor: any = colorNameToLighterRGBA(pokeInfo?.colour, 0.3);
     const capitalize = (str: string): string => {
         return str?.charAt(0).toUpperCase() + str?.slice(1);
@@ -24,8 +25,10 @@ const Details = () => {
     const [error, setError] = useState("");
 
     const onImageLoad = async (id: string) => {
+        id = id.toString();
         await axios.get(poke_info_url + id).then((response) => {
             setPokeInfo(response.data);
+            setPokeId(response.data.id);
         }, (error: any) => {
             setLoading(false);
             setError(error.message);
@@ -55,10 +58,10 @@ const Details = () => {
     }
     useEffect(() => {
         if(id)
-            onImageLoad(id).then(r => r);
+            onImageLoad(id);
     }, [id])
     const convertTo3DigitString = (num: string): string => {
-        let numStr: string = num?.toString();
+        let numStr: string = num?.toString().toLowerCase();
         while (numStr.length < 3) {
             numStr = '0' + numStr;
         }
@@ -97,7 +100,7 @@ const Details = () => {
                                     <div className="flex flex-row justify-between m-8">
                                         <div className="w-1/2">
                                             <div
-                                                className="text-theme-colour-text-light text-3xl mb-5 font-bold">n {convertTo3DigitString(id!)}</div>
+                                                className="text-theme-colour-text-light text-3xl mb-5 font-bold">n {convertTo3DigitString(pokeId.toString())}</div>
                                             <div
                                                 className="text-theme-colour-text-dark text-5xl font-bold">{capitalize(pokeInfo?.name)}</div>
                                         </div>
@@ -108,7 +111,7 @@ const Details = () => {
                                                          backgroundColor: `${type?.color}`,
                                                          borderColor: `${type?.color}`, border: 'thin',
                                                          color: lightOrDark(type?.color) == 'light' ? 'black' : 'white'
-                                                     }}>
+                                                     }} key={type?.name}>
                                                     {capitalize(type?.name)}
                                                 </div>
                                             ))}
@@ -123,14 +126,14 @@ const Details = () => {
                                     }}>
                                         <img
                                             className="p-3"
-                                            src={base_url_large + convertTo3DigitString(id!) + '.png'}
+                                            src={base_url_large + convertTo3DigitString(pokeId.toString()) + '.png'}
                                             width={400} height={400} alt={'card img'}
                                         />
 
                                     </div>
                                 </div>
                                 <div className="w-1/2">
-                                    <DetailsTabView formsData={formsData} capitalize={capitalize}  />
+                                    <DetailsTabView formsData={formsData} capitalize={capitalize} id={pokeId} />
                                 </div>
                             </div>
                         )

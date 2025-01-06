@@ -55,7 +55,7 @@ const Card = ({data}: any) => {
                                     borderColor: `${type?.color}`, border: 'thin',
                                     color: lightOrDark(type?.color) == 'light' ? 'black' : 'white'
                                 }}>
-                                    { capitalize(type?.name) }
+                                    {capitalize(type?.name)}
                                 </div>
                             )) }
                         </div>

@@ -14,9 +14,9 @@ const Pagination = ({ loadCards } : any) => {
         try {
             const response = await loadCards(page * limit, limit);
 
-            const newData = response.data;
+            const newData = response?.data;
 
-            if (newData.length < limit) {
+            if (newData?.length < limit) {
                 setHasMore(false); // No more data to fetch
             }
         } catch (error) {
